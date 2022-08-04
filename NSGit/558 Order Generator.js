@@ -149,6 +149,7 @@ define(['N/record', 'N/search', 'N/email', 'N/runtime'],
 				}//loop line items
 			}//search length
 		}
+
 		/**
 		* Returns a string I made up of the name of the Customer, from a lookup of EDI confirmed clients
 		* @param {string} customerId Record.getValue('entity')
@@ -168,6 +169,7 @@ define(['N/record', 'N/search', 'N/email', 'N/runtime'],
 			var output = createdByEDI && customerName != "CUSTOMER IS NOT EDI";
 			return output;
 		}
+
 		function processEdiOrder(staticRecord, logJson, ERROR_EXISTS, ERROR_MESSAGE) {
 			var recId = staticRecord.id;
 			var docNo = search.lookupFields({ type: staticRecord.type, id: recId, columns: ['tranid'] }).tranid;
@@ -230,6 +232,7 @@ define(['N/record', 'N/search', 'N/email', 'N/runtime'],
 				}//isMTO
 			}//loop line items
 		}
+
 		function createWorkOrder(woFields) {
 			var woRecObj = record.create({
 				type: record.Type.WORK_ORDER,
@@ -272,6 +275,7 @@ define(['N/record', 'N/search', 'N/email', 'N/runtime'],
 			else {
 				emailSubject = `Make to Order WO ${woFields.woNumber}`;
 			}
+
 			var emailMessage = '';
 			emailMessage += '<html>';
 			emailMessage += '<body>';
@@ -315,6 +319,7 @@ define(['N/record', 'N/search', 'N/email', 'N/runtime'],
 				relatedRecords: { transactionId: woFields.woRecId }
 			});
 		}
+        
 		return {
 			afterSubmit: afterSubmit
 		};
