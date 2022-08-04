@@ -55,21 +55,16 @@ define(['N/search', 'N/record', 'N/file', 'N/encode'],
                 var recordId = context.key;
                 log.debug("supportcase:" + recordId, context.values[0]);
                 logJson.supportcase = recordId;
-
                 var supportCaseFields = search.lookupFields({
                     type: 'supportcase',
                     id: recordId,
                     columns: ['casenumber', 'company', 'custevent_677_json_form', 'custevent_677_json_form_2']
                 });
-
                 var casenumber = supportCaseFields.casenumber;
                 var company = supportCaseFields.company[0].value;
                 var fileContents1 = supportCaseFields.custevent_677_json_form;
                 var fileContents2 = supportCaseFields.custevent_677_json_form_2;
-
-                var fileContentsParsed = JSON.parse(fileContents2.length ? fileContents1 + fileContents2 : fileContents1);
-
-                //log.debug('fileContentsParsed ' + typeof (fileContentsParsed) + fileContentsParsed.length, fileContentsParsed);
+                var fileContentsParsed = JSON.parse(fileContents2.length ? fileContents1 + fileContents2 : fileContents1);              
 
                 if (fileContentsParsed) {
                     for (var i = 0; i < fileContentsParsed.length; i++) {
@@ -78,7 +73,6 @@ define(['N/search', 'N/record', 'N/file', 'N/encode'],
                         var fileName = casenumber + '_' + jsonFileContent["filename"];
                         var fileExtension = jsonFileContent["fileextension"];
                         var base64Content = jsonFileContent["base64encode"];
-
                         if (fileName && fileExtension && base64Content) {
                             var fileObj = file.create({
                                 name: fileName,
@@ -88,7 +82,6 @@ define(['N/search', 'N/record', 'N/file', 'N/encode'],
                             });
                             var fileId = fileObj.save();
                             log.debug('saving file:' + fileId, logJson);
-
                             var Cases_Files_Obj = record.create({
                                 type: 'customrecord_cases_files',
                                 isDynamic: true
@@ -108,7 +101,6 @@ define(['N/search', 'N/record', 'N/file', 'N/encode'],
                                     value: value
                                 });
                             }
-
                             try {
                                 var id = Cases_Files_Obj.save();
                                 log.debug('Record created successfully', 'New record ID:  ' + id);
@@ -124,10 +116,8 @@ define(['N/search', 'N/record', 'N/file', 'N/encode'],
                     title: 'reduce',
                     details: error.toString()
                 });
-                //throw error;
             }
         }
-
         function summarize(context) {
 
             var governance = {
